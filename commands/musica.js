@@ -4,7 +4,9 @@ const {
   createAudioPlayer,
   createAudioResource,
 } = require("@discordjs/voice");
+const { EmbedBuilder } = require("discord.js");
 const ytdl = require("ytdl-core");
+const config = require("../config.json");
 
 module.exports = {
   name: "musica",
@@ -15,9 +17,22 @@ module.exports = {
       volume: 1,
     };
 
-    let channel = await message.guild.channels.fetch("1025423307299893331");
-    if (channel == null) {
-      console.log("Canal não encontrado de client");
+    let channel = null;
+    try {
+      channel = await message.guild.channels.fetch(config.channel_id);
+    } catch (error) {
+      let cor_da_embed = 0x0099ff;
+      let embed_1 = new EmbedBuilder()
+        .setColor(cor_da_embed)
+        .setDescription(`Canal não encontrado`);
+      await message
+        .reply({ content: `${message.author}`, embeds: [embed_1] })
+        .then((msg) => {
+          setTimeout(() => {
+            msg.edit({ embeds: [embed_2] });
+          }, 2000);
+        });
+      return;
     }
 
     if (channel != null) {
@@ -28,7 +43,7 @@ module.exports = {
         adapterCreator: channel.guild.voiceAdapterCreator,
       });
       if (connection) {
-        const strem = ytdl(args[0], { filter: "audioonly" });
+        const strem = ytdl(args[2].trim(), { filter: "audioonly" });
         const player = createAudioPlayer();
         const resource = createAudioResource(strem);
 

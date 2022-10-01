@@ -1,4 +1,4 @@
-const { Partials, Client, GatewayIntentBits } = require("discord.js");
+const { Client, GatewayIntentBits } = require("discord.js");
 const config = require("./config.json");
 const fs = require("fs");
 const client = new Client({
@@ -16,8 +16,8 @@ client.on("messageCreate", (message) => {
   }
   // console.log(JSON.stringify(message, null, 2));
   const args = message.content.trim().slice(config.prefix.length).split(/!+/g);
-  const command = args.shift().toLowerCase();
-
+  // console.log(args);
+  const command = args[1].toLowerCase();
   try {
     const commandFile = require(`./commands/${command}.js`);
     commandFile.run(client, message, args);
