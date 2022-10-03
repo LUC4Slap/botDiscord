@@ -3,9 +3,9 @@ const { EmbedBuilder, GuildMemberManager } = require("discord.js");
 module.exports = {
   name: "ping",
   author: "Lucas",
-  run: async (client, message, args) => {
-    let userID = client;
-    console.log(JSON.stringify(userID, null, 2));
+  run: async (client, message, args, idChannelVoice) => {
+    // let userID = client;
+    // console.log(JSON.stringify(userID, null, 2));
     let cor_da_embed = 0x0099ff;
     let ping_do_bot = client.ws.ping;
     let embed_1 = new EmbedBuilder()
